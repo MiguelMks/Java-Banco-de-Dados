@@ -14,10 +14,7 @@ public class PedidoDAO implements ICRUDPedido {
 
         try {
             con = ConectaBD.getConnection();
-            // Desativa o autocommit para garantir que se um item falhar, nada seja salvo (Transação)
             con.setAutoCommit(false);
-
-            // 1. Salva o cabeçalho do pedido
             PreparedStatement stmtPedido = con.prepareStatement(sqlPedido, Statement.RETURN_GENERATED_KEYS);
             stmtPedido.setInt(1, pedido.getCliente().getId());
             stmtPedido.setTimestamp(2, java.sql.Timestamp.valueOf(pedido.getData()));
@@ -26,7 +23,6 @@ public class PedidoDAO implements ICRUDPedido {
 
             stmtPedido.executeUpdate();
 
-            // Pega o ID gerado para o pedido
             ResultSet rs = stmtPedido.getGeneratedKeys();
             int idPedidoGerado = 0;
             if (rs.next()) {
@@ -36,7 +32,7 @@ public class PedidoDAO implements ICRUDPedido {
             rs.close();
             stmtPedido.close();
 
-            // 2. Salva cada item associado a esse pedido
+
             PreparedStatement stmtItem = con.prepareStatement(sqlItem);
             for (Pedido.ItemPedido item : pedido.getItens()) {
                 stmtItem.setInt(1, idPedidoGerado);
@@ -47,7 +43,6 @@ public class PedidoDAO implements ICRUDPedido {
             }
             stmtItem.close();
 
-            // Confirma todas as inserções no banco
             con.commit();
             System.out.println("Pedido #" + idPedidoGerado + " gravado com sucesso no banco de dados!");
 
@@ -55,7 +50,7 @@ public class PedidoDAO implements ICRUDPedido {
             System.out.println("Erro ao salvar pedido no banco: " + e.getMessage());
             if (con != null) {
                 try {
-                    con.rollback(); // Cancela tudo em caso de erro
+                    con.rollback();
                 } catch (SQLException ex) {
                     System.out.println("Erro ao fazer rollback: " + ex.getMessage());
                 }
