@@ -4,6 +4,7 @@ public class Menu {
     Scanner sc = new Scanner(System.in);
     ICRUDProduto daoP = new ProdutoDAO();
     ICRUDCliente daoC = new ClienteDAO();
+    ICRUDPedido daoPe = new PedidoDAO();
     public void showMenu() {
         System.out.println("Escolha uma das opçoes: ");
         System.out.println(" ");
@@ -32,10 +33,9 @@ public class Menu {
     public void showMenuPedido() {
         System.out.println("Opçoes para pedidos");
         System.out.println(" ");
-        System.out.println("1. SalvarPedido ");
-        System.out.println("2. AlterarPedido");
-        System.out.println("3. ListarPedidos");
-        System.out.println("4. DeletarPedido");
+        System.out.println("1. Adicionar ao Carrinho ");
+        System.out.println("2. Remover do Carrinho");
+        System.out.println("3. Finalizar Pedido");
         
     }
     public void escolha(int opcao) {
@@ -252,9 +252,17 @@ public class Menu {
     }
     public void escolhaPedido(int opcao) {
         if (opcao == 1){
-            
+            System.out.println(" ");
+            System.out.println("Qual o nome do produto?");
+            String produto = sc.nextLine();
+            System.out.println(" ");
+            System.out.println("Quantas unidades vc quer desse produto?");
+            int quantidade = sc.nextInt();
+            sc.nextLine();
+
         }
     }
+
     public void repeat() {
         showMenu();
         int opcao = sc.nextInt();
