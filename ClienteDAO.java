@@ -98,7 +98,7 @@ public class ClienteDAO implements ICRUDCliente{
 public void listar() {
     String sql = "SELECT id, cpf, nome, email FROM tb_clientes";
 
-    // O Java abre e fecha a conexão, o statement e o result set automaticamente aqui
+
     try (Connection con = ConectaBD.getConnection();
          PreparedStatement stmt = con.prepareStatement(sql);
          ResultSet rs = stmt.executeQuery()) {
