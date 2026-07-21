@@ -5,8 +5,6 @@ public class Menu {
     ProdutoDAO daoP = new ProdutoDAO();
     ClienteDAO daoC = new ClienteDAO();
     PedidoDAO daoPe = new PedidoDAO();
-    
-    // Objeto do pedido que serve como carrinho enquanto o menu estiver aberto
     private Pedido pedidoAtual; 
 
     public void showMenu() {
@@ -203,11 +201,8 @@ public class Menu {
             }
         }
     }
-
-    // --- MÉTODOS DO PEDIDO IMPLEMENTADOS ---
-
     public void escolhaPedido(int opcao) {
-        // Se ainda não temos um pedido aberto para a sessão atual, cria um
+        
         if (this.pedidoAtual == null) {
             System.out.print("Informe o ID do cliente para iniciar o pedido: ");
             int idCliente = sc.nextInt();
@@ -222,14 +217,14 @@ public class Menu {
             System.out.println("Pedido iniciado para o Cliente " + c.getNome());
         }
 
-        if (opcao == 1) { // Adicionar ao Carrinho
+        if (opcao == 1) { 
             System.out.print("Qual o ID do produto que deseja adicionar? ");
             int idProduto = sc.nextInt();
             System.out.print("Quantas unidades você quer desse produto? ");
             int quantidade = sc.nextInt();
             sc.nextLine();
 
-            // Busca o produto real pelo ID no DAO
+      
             Produto produto = ((ProdutoDAO) daoP).buscarPorId(idProduto);
             if (produto != null) {
                 this.pedidoAtual.adicionarNoCarrinho(produto, quantidade);
@@ -237,27 +232,26 @@ public class Menu {
                 System.out.println("Produto não encontrado!");
             }
 
-        } else if (opcao == 2) { // Remover do Carrinho
+        } else if (opcao == 2) {
             System.out.print("Digite o ID do produto que deseja remover: ");
             int idProduto = sc.nextInt();
             sc.nextLine();
 
             this.pedidoAtual.removerDoCarrinho(idProduto);
 
-        } else if (opcao == 3) { // Finalizar Pedido
-            // Chama a finalização enviando os DAOs para persistência
+        } else if (opcao == 3) {
+           
             boolean finalizado = this.pedidoAtual.finalizarPedido((PedidoDAO) daoPe, (ProdutoDAO) daoP);
             
             if (finalizado) {
                 System.out.println("Pedido finalizado com sucesso!");
-                this.pedidoAtual = null; // Libera o objeto para criar um novo pedido na próxima vez
+                this.pedidoAtual = null;
             } else {
                 System.out.println("Não foi possível finalizar. Carrinho vazio ou status inválido.");
             }
         }
     }
 
-    // Substituto do repeat() para evitar estouro de pilha
     public void iniciarLoop() {
         int opcao = -1;
         while (opcao != 0) {
