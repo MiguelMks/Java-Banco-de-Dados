@@ -84,7 +84,21 @@ public class Pedido {
         pedidoDAO.salvar(this);
         return true;
     }
-        
+    public double getValorTotal() {
+        double total = 0.0;
+        for (ItemPedido item : itens) {
+            Produto p = item.getProduto();
+            double preco = 0.0;
+            try {
+                preco = p.getPreco();
+            } catch (Exception e) {
+                // se Produto não tiver getPreco ou ocorrer erro, considera 0
+                preco = 0.0;
+            }
+            total += preco * item.getQuantidade();
+        }
+        return total;
+    }
     public int getId() {
         return id;
     }

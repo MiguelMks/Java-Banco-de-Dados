@@ -59,7 +59,6 @@ public class ProdutoDAO implements ICRUDProduto {
             System.out.println(e.getMessage());
         }
     }
-    @Override
     public Produto buscarPorId(int id) {
         String sql = "SELECT * FROM tb_produtos WHERE id=?";
 

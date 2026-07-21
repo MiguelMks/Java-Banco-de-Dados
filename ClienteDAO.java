@@ -4,8 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class ClienteDAO implements ICRUDCliente {
-    @Override
+public class ClienteDAO implements ICRUDCliente{
     public void salvar(Cliente cliente) {
         String sql = "INSERT INTO tb_clientes (cpf, nome, email, rua, numero, bairro, cep, cidade, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         Connection con = ConectaBD.getConnection();
@@ -13,13 +12,13 @@ public class ClienteDAO implements ICRUDCliente {
         try {
             PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-            stmt.setString(1, cliente.getCpf());
-            stmt.setString(2, cliente.getNome());
-            stmt.setString(3, cliente.getEmail());
-            stmt.setString(4, cliente.getRua());
-            stmt.setInt(5, cliente.getNumero());
+            stmt.setString(1, cliente.getCpf()   );
+            stmt.setString(2, cliente.getNome()  );
+            stmt.setString(3, cliente.getEmail() );
+            stmt.setString(4, cliente.getRua()   );
+            stmt.setInt   (5, cliente.getNumero());
             stmt.setString(6, cliente.getBairro());
-            stmt.setInt(7, cliente.getCep());
+            stmt.setInt   (7, cliente.getCep()   );
             stmt.setString(8, cliente.getCidade());
             stmt.setString(9, cliente.getEstado());
 
@@ -39,7 +38,7 @@ public class ClienteDAO implements ICRUDCliente {
         }
     }
 
-    @Override
+
     public void deletar(int id) {
 
         String sql = "DELETE FROM tb_clientes WHERE id=?";
@@ -62,7 +61,7 @@ public class ClienteDAO implements ICRUDCliente {
         }
     }
 
-    @Override
+
     public void alterar(Cliente cliente) {
 
         String sql = "UPDATE tb_clientes SET cpf=?, nome=?, email=?, rua=?, numero=?, bairro=?, cep=?, cidade=?, estado=? WHERE id=?";
@@ -95,7 +94,7 @@ public class ClienteDAO implements ICRUDCliente {
         }
     }
 
-@Override
+
 public void listar() {
     String sql = "SELECT id, cpf, nome, email FROM tb_clientes";
 
@@ -124,7 +123,7 @@ public void listar() {
         System.out.println("Erro ao listar: " + e.getMessage());
     }
 }
-    @Override
+
     public Cliente buscarPorId(int id) {
         Cliente clienteEncontrado = null;
         String sql = "SELECT id, cpf, nome, email, rua, numero, bairro, cep, cidade, estado FROM tb_clientes WHERE id = ?";
