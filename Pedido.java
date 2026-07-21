@@ -38,19 +38,18 @@ public class Pedido {
     }
 
     public void adicionarNoCarrinho(Produto produto, int quantidade) {
-// Validação 1: Não alterar pedido finalizado
+
         if (!"EM_ABERTO".equals(this.status)) {
             System.out.println("Não é possível alterar um pedido já finalizado.");
             return;
         }
 
-        // Validação 2: Verificar estoque
         if (produto.getEstoque() < quantidade) {
             System.out.println("Estoque insuficiente para o produto: " + produto.getDescricao());
             return;
         }
 
-        // Se o produto já existir no carrinho, apenas incrementa a quantidade
+
         for (ItemPedido item : itens) {
             if (item.getProduto().getId() == produto.getId()) {
                 item.adicionarQuantidade(quantidade);
@@ -58,7 +57,7 @@ public class Pedido {
             }
         }
 
-        // Se for um produto novo no carrinho
+
         itens.add(new ItemPedido(produto, quantidade));
     }
     public void removerDoCarrinho(int produtoId) {
@@ -70,7 +69,7 @@ public class Pedido {
             return false;
         }
 
-        // Atualiza estoque dos produtos no banco
+
         for (ItemPedido item : itens) {
             Produto produto = item.getProduto();
             produto.setEstoque(produto.getEstoque() - item.getQuantidade());
@@ -80,7 +79,7 @@ public class Pedido {
         this.status = "FINALIZADO";
         this.data = LocalDateTime.now();
         
-          // Salva o pedido finalizado no banco de dados
+
         pedidoDAO.salvar(this);
         return true;
     }
@@ -92,7 +91,6 @@ public class Pedido {
             try {
                 preco = p.getPreco();
             } catch (Exception e) {
-                // se Produto não tiver getPreco ou ocorrer erro, considera 0
                 preco = 0.0;
             }
             total += preco * item.getQuantidade();
